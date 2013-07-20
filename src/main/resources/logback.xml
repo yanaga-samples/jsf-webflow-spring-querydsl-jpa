@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator" />
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d [%t] %-5p %c - %m%n</pattern>
+		</encoder>
+	</appender>
+	<logger name="org.apache.catalina" level="INFO" />
+	<logger name="org.hibernate.impl.SessionFactoryObjectFactory" level="ERROR" />
+	<logger name="org.hibernate" level="WARN" />
+	<logger name="org.springframework.transaction" level="WARN" />
+	<logger name="org.springframework" level="WARN" />
+	<logger name="org.springframework.webflow" level="WARN" />
+	<logger name="br.com.yanaga" level="INFO" />
+	<logger name="br.com.yanaga.jsf_webflow_spring_querydsl_jpa.app.web" level="DEBUG" />
+	<root level="WARN">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>
