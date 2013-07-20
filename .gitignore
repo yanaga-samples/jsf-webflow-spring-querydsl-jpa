@@ -1,0 +1,17 @@
+.classpath
+.clover
+.factorypath
+.flexProperties
+.project
+.settings
+.springBeans
+.springWebflow
+.metadata
+target
+bin
+rebel.xml
+logs
+*.log
+*.tmp
+/gen
+/dependency-reduced-pom.xml
