@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template/blank.xhtml">
+    <ui:define name="body">
+        <h:form id="pessoa">
+            <p:panel header="Pessoa">
+                <h:panelGrid columns="3">
+                    <h:outputLabel value="Razão" for="razao"/>
+                    <p:inputText id="razao" value="#{pessoa.razao}" converter="razaoConverter"/>
+                    <p:message for="razao" />
+                </h:panelGrid>
+                <p:commandButton value="Salvar" action="salvar" update="@form"/>
+            </p:panel>
+        </h:form>
+        <h:form>
+            <p:panel id="enderecos" header="Enderecos" rendered="#{empty endereco}">
+                <p:dataTable value="#{enderecos}" var="e">
+                    <p:column headerText="Endereco">
+                        <h:outputText value="#{e.endereco}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Editar" action="editar" update="@form"/>
+                        <p:commandButton value="Remover" action="remover" update="@form"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Novo" action="novoEndereco" update="@form"/>
+            </p:panel>
+            <p:panel id="endereco" header="Endereco" rendered="#{not empty endereco}">
+                <h:panelGrid columns="3">
+                    <p:outputLabel value="Endereco" for="end"/>
+                    <p:inputText id="end" value="#{endereco.endereco}"/>
+                    <p:message for="end" />
+                </h:panelGrid>
+                <p:commandButton value="Adicionar" action="adicionar" update="@form"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+
