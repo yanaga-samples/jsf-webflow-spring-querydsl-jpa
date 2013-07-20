@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <secured attributes="ROLE_USER"/>
+    <persistence-context />
+
+    <view-state id="listPessoa">
+        <on-entry>
+            <evaluate expression="pessoaController.newFiltro()" result="viewScope.filtro"/>
+        </on-entry>
+        <on-render>
+            <evaluate expression="pessoaController.filtrar(filtro)" result="viewScope.pessoas" result-type="dataModel"/>
+        </on-render>
+        <transition on="filtrar">
+
+        </transition>
+        <transition on="novo" to="insertPessoa">
+            <evaluate expression="pessoaController.newPessoa()" result="flowScope.pessoa" />
+            <evaluate expression="pessoaController.newEndereco(pessoa)" result="flowScope.endereco" />
+        </transition>
+        <transition on="editar" to="insertPessoa">
+            <evaluate expression="pessoas.selectedRow" result="flowScope.pessoa" />
+        </transition>
+    </view-state>
+
+    <view-state id="insertPessoa">
+        <on-entry>
+            <evaluate expression="pessoa.enderecos" result="viewScope.enderecos" result-type="dataModel"/>
+        </on-entry>
+        <transition on="salvar" to="ok">
+            <evaluate expression="pessoaValidator.validate(pessoa, messageContext)"/>
+            <evaluate expression="pessoaController.salvar(pessoa)" />
+        </transition>
+        <transition on="adicionar">
+            <evaluate expression="pessoa.addEndereco(endereco)"/>
+            <evaluate expression="pessoa.enderecos" result="viewScope.enderecos" result-type="dataModel"/>
+            <set name="flowScope.endereco" value="null"/>
+        </transition>
+        <transition on="novoEndereco">
+            <evaluate expression="pessoaController.newEndereco(pessoa)" result="flowScope.endereco"/>
+        </transition>
+        <transition on="editar">
+            <evaluate expression="enderecos.selectedRow" result="flowScope.endereco"/>
+        </transition>
+        <transition on="remover">
+            <evaluate expression="pessoa.removeEndereco(enderecos.selectedRow)"/>
+            <evaluate expression="pessoa.enderecos" result="viewScope.enderecos" result-type="dataModel"/>
+        </transition>
+        <transition on="cancelar" to="cancel" />
+    </view-state>
+
+    <end-state id="ok" commit="true" />
+    <end-state id="cancel" />
+</flow>
